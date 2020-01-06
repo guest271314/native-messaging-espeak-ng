@@ -21,7 +21,7 @@ Rough-draft proof-of-concept
 
 # Synopsis
 
-Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) and [Native File System](https://github.com/WICG/native-file-system) to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) to execute [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), get speech synthesis output as [Opus](https://github.com/xiph/opus) ([opus-tools_static_build.sh](https://gist.github.com/spvkgn/60c12010d4cae1243dfee45b0821f692)) encoded audio repersented as `ArrayBuffer` in the browser, at both the Chromium, Chrome App page, and any web page set to as URL to match in `manifest.json`. 
+Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) and [Native File System](https://github.com/WICG/native-file-system) to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) to execute [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), get speech synthesis output as [Opus](https://github.com/xiph/opus) encoded audio repersented as `ArrayBuffer` in the browser, at both the Chromium, Chrome App page, and any web page set to as URL to match in `manifest.json`. 
 
 # Install
 ```
@@ -32,6 +32,14 @@ chmod u+x install_host.sh
 ```
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select `app` folder in `native-messaging-espeak-ng` directory.
+
+<h3>Dependencies</h3>
+
+`make autoconf automake libtool pkg-config  gcc` for [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md) `espeak-ng`.
+
+`nodejs` for Native Messaging host [native-messaging](https://github.com/simov/native-messaging).
+
+[opus-tools_static_build.sh](https://gist.github.com/spvkgn/60c12010d4cae1243dfee45b0821f692) for downloading and building Opus audio encoding dependencies is included in the `host` directory.
 
 # Launch
 
@@ -45,7 +53,7 @@ To create an Application or Desktop launcher right-click on the icon at `chrome:
 
 At the URL `chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/native-messaging-espeak-ng.html` type text or SSML into the HTML `<textarea>`, press `Send`.
 
-A `async` function will be globally defined `nativeMessagingEspeakNG` which expects plain text, SSML text, or an XML `Document` (`["text/plain", "application/xml", "application/ssml+xml"]`) 
+A `async` function will be globally defined `nativeMessagingEspeakNG` which expects plain text, SSML text, or an XML `Document` (`["text/plain", "application/xml", "application/ssml+xml"]`).
 
 ```
 nativeMessagingEspeakNG("Hello world")
