@@ -49,6 +49,7 @@ const sendNativeMessage = async input => {
   } catch (e) {
     console.error(e);
     console.trace();
+    throw e;
   };
 };
 // handle native message from host
