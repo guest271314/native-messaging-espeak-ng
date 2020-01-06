@@ -68,7 +68,7 @@ nativeMessagingEspeakNG("Hello world")
 The fulfilled `Promise` will be a plain JavaScript object having three properties, `input`, `phonemes`, `result`
 
 ```
-{input: "Hello world ", phonemes: "h@l'oU w'3:ld↵", result: ArrayBuffer(5495)}
+{input: "Hello world", phonemes: "h@l'oU w'3:ld↵", result: ArrayBuffer(5495)}
 ```
 
 SSML input 
