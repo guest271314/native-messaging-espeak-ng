@@ -17,8 +17,7 @@ HOST_NAME="native_messaging_espeak_ng"
 # Update host path in the manifest.
 HOST_PATH="$DIR/native-messaging-host.js"
 echo $HOST_PATH
-
-sed -i -e "s?HOST_PATH?"$HOST_PATH"?" "$TARGET_DIR/$HOST_NAME.json"
+sed -i -e "s?HOST_PATH?"$HOST_PATH"?" "$HOST_NAME.json"
 # Create directory to store native messaging host.
 mkdir -p "$TARGET_DIR"
 # Copy native messaging host manifest.
