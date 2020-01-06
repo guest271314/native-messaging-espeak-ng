@@ -7,7 +7,7 @@ const externalConnection = _ => {
     });
     externalPort.onMessage.addListener(async message => {
       if (nativeMessagingEspeakNG) {
-        // result: ArrayBuffer, not transferrable
+        // result: ArrayBuffer, not transferable
         const {
           input, phonemes, result
         // message: Text, or SSML markup
