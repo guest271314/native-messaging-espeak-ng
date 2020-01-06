@@ -152,7 +152,7 @@ Additionally, Chrome, Chromium can be launched with
 
 - `--use-fake-device-for-media-stream`
 - `--use-fake-ui-for-media-stream`
-- `--use-file-for-fake-audio-capture=$HOME/native-messaging-espeak-ng/host/data/output.wav%noloop`
+- `--use-file-for-fake-audio-capture=/path/to/native-messaging-espeak-ng/host/data/output.wav%noloop`
 
 flags which provide a means to stream the local file as a `MediaStream` after `navigator.mediaDevices.getUserMedia({audio: true})` is executed when the file `native-messaging-espeak-ng.js` is modified within `onNativeMessage` function to not remove the `.wav` file after being written to `native-messaging-espeak-ng/host/data` folder
 
@@ -182,7 +182,11 @@ navigator.mediaDevices.getUserMedia({audio: true})
 });
 ```
 
-One caveat being there is no default means to determine precisely when the audio output has completed due to the potential for one or more `<break/>` elements within SSML and the fact that Chrome, Chromium does not dispatch `mute` or `ended` events when the file has completed playback.
+`%noloop` appened to the path to `.wav` file and used within a launcher that parses the input, two `%%` might be neccessary in order to avoid the single `%` being escaped, resulting in `wavoloop`. Executing at the command line does not exhibit that behaviour. 
+
+`%noloop` does not affect `mute` and `ended` events of `MediaStreamTrack` which are not fired when the source `.wav` playback reaches end of file at Chromium 80.
+
+The `MediaStreamTrack` is enabled and does not stop when the `wav` file reaches end of file with `%noloop` set. Analyzing audio output for silence to determining precisely when the audio output has completed could lead to the track being stopped before the next speech synthesis audio output or continuing beyond the playback end of the input `wav` file due to the potential for one or more `<break/>` (`<break time="5000ms"/>`) elements, or other elements or attribute values within input SSML. 
 
 ---
 
