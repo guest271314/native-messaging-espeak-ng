@@ -7,7 +7,7 @@ const sendMessage = require("./protocol")(handleMessage)
 function handleMessage (req) {
   const {exec} = require("child_process");
   if (req.message === "write") {
-    const localLibrary = "$HOME/native-messaging-espeak-ng/host";
+    const localLibrary = "`pwd`";
     exec("ESPEAK_DATA_PATH=" + localLibrary + "/espeak-ng"
         + " LD_LIBRARY_PATH=src:${LD_LIBRARY_PATH} "
         + localLibrary + "/espeak-ng/src/espeak-ng"
@@ -20,7 +20,9 @@ function handleMessage (req) {
         return;
       }
       // convert wav to opus using opusenc
-      exec(localLibrary + "/build/bin/opusenc " + localLibrary + "/data/output.wav " + localLibrary + "/data/output.ogg"
+      exec(localLibrary + "/build/bin/opusenc " 
+          + localLibrary + "/data/output.wav " 
+          + localLibrary + "/data/output.ogg"
       , (_err, _stdout, _stderr) => {
         if (_err) {
         // node couldn't execute the command
