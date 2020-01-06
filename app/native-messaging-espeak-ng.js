@@ -7,7 +7,6 @@ const hostName = "native_messaging_espeak_ng";
 const connectButton = document.getElementById("connect-button");
 const sendMessageButton = document.getElementById("send-message-button");
 const sources = document.getElementById("sources");
-const audio = new Audio();
 let dir, port, status, nativeMessagingEspeakNG;
 
 sources.value = `<voice name="Storm">${sources.placeholder}</voice>`;
