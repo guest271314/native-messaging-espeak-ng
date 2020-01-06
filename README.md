@@ -35,7 +35,7 @@ Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpac
 
 <h3>Dependencies</h3>
 
-`make autoconf automake libtool pkg-config  gcc` for [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md) `espeak-ng`.
+`make autoconf automake libtool pkg-config  gcc` for [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md).
 
 `nodejs` for Native Messaging host [native-messaging](https://github.com/simov/native-messaging).
 
