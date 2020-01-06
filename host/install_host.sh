@@ -36,6 +36,6 @@ cd espeak-ng
 make clean
 make -B en
 cd ..
-echo "Downloading opus-1.3.1.tar.gz opus-tools-0.2.tar.gz libopusenc-0.2.1.tar.gz opusfile-0.11.tar.gz libogg-1.3.4.tar.xz flac-1.3.3.tar.xz to output opus in ogg container..."
+echo "Cloning opus opus-tools libopusenc opusfile libogg flac from GitHub to output opus in ogg container..."
 ./opus-tools_static_build.sh
 echo "Native messaging host $HOST_NAME has been installed."
