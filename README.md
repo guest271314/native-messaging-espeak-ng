@@ -5,7 +5,7 @@
   
 Use local `espeak-ng` with `-m` option set in the browser. 
 
-Output of speech sythesis as a media stream.
+Output speech sythesis audio as a media stream (media stream track).
 
 # Synopsis
 
