@@ -27,6 +27,8 @@ Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpac
 
 `nodejs` for Native Messaging host [native-messaging](https://github.com/simov/native-messaging).
 
+`libtool-bin` for `flac`.
+
 [opus-tools_static_build.sh](https://gist.github.com/spvkgn/60c12010d4cae1243dfee45b0821f692) for downloading and building Opus audio encoding dependencies is included in the `host` directory.
 
 # Launch
