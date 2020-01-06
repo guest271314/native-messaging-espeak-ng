@@ -39,9 +39,30 @@ To create an Application or Desktop launcher right-click on the icon at `chrome:
 
 # Usage
 
-At the URL `chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/native-messaging-espeak-ng.html` type text or SSML into the HTML `<textarea>`, press `Send`.
+At the URL `chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/native-messaging-espeak-ng.html` press `Connect` to connect to Native Messaging host and select `host/data` directory at Native File System 
 
-A `async` function will be globally defined `nativeMessagingEspeakNG` which expects plain text, SSML text, or an XML `Document` (`["text/plain", "application/xml", "application/ssml+xml"]`).
+<pre>
+Let site view files?
+
+<b>chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch</b> will 
+be able to view files in <b>data</b> until you close this tab
+</pre>
+
+prompt select `View Files`, at
+
+<pre>
+Save changes to data?
+
+<b>chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch</b> will 
+be able to edit files in <b>data</b> until you close this tab
+</pre>
+
+select `Save changes`.
+
+
+Type text or SSML into the HTML `<textarea>`, press `Send`. 
+
+An `async` function `nativeMessagingEspeakNG` will be defined which expects plain text, SSML text, or an XML `Document` (`["text/plain", "application/xml", "application/ssml+xml"]`).
 
 ```
 nativeMessagingEspeakNG("Hello world")
