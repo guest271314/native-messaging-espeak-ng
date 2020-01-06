@@ -14,13 +14,18 @@ TARGET_DIR="$HOME/.config/chromium/NativeMessagingHosts"
 echo $TARGET_DIR
 # name of native messging host
 HOST_NAME="native_messaging_espeak_ng"
+# Update host path in the manifest.
+HOST_PATH="$DIR/native-messaging-host.js"
+echo $HOST_PATH
+
+sed -i -e "s?HOST_PATH?"$HOST_PATH"?" "$TARGET_DIR/$HOST_NAME.json"
 # Create directory to store native messaging host.
 mkdir -p "$TARGET_DIR"
 # Copy native messaging host manifest.
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
 # Set permissions for the manifest so that all users can read it.
 chmod o+r "$TARGET_DIR/$HOST_NAME.json"
-chmod u+x "$DIR/opus-tools_static_build.sh"
+chmod u+x "$DIR/opus-tools_static_build.sh" "$DIR/uninstall_host.sh" "$DIR/protocol.js" "$HOST_PATH" 
 echo "Cloning espeak-ng from github.com..."
 # sudo apt-get install -y make autoconf automake libtool pkg-config gcc libsonic-dev ruby-ronn ruby-kramdown nodejs
 # if ! git -C espeak-ng rev-parse --is-inside-work-tree ; then
