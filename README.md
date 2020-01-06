@@ -27,7 +27,7 @@ Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) 
 ```
 git https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-maessaging-espeak-ng/host
-chmod u+x install_host.sh
+chmod u+x *.sh *.js
 ./install_host.sh
 ```
 
