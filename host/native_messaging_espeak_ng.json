@@ -5,7 +5,7 @@
 {
   "name": "native_messaging_espeak_ng",
   "description": "espeak-ng using Native Messaging, JavaScript",
-  "path": "",
+  "path": "HOST_PATH",
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/"
