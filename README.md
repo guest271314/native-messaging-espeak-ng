@@ -178,7 +178,7 @@ One caveat being there is no default means to determine precisely when the audio
 
 ---
 
-<h4>Motivation, cont.</h4>
+<h4>Related issues</h4>
 
 
 - [Include test for setting an SSML document at SpeechSynthesisUtterance .text property within speech-api](https://github.com/web-platform-tests/wpt/issues/8712)
