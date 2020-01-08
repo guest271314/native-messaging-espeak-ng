@@ -1,7 +1,7 @@
 // native-messaging-espeak-ng guest271314 1-4-2020
 // espeak-ng using Native Messaging, Native File System, JavaScript
 //
-// Native Messaging template 
+// Native Messaging example source code
 // https://chromium.googlesource.com/chromium/src/+/master/chrome/common/extensions/docs/examples/api/nativeMessaging
 const hostName = "native_messaging_espeak_ng";
 const connectButton = document.getElementById("connect-button");
