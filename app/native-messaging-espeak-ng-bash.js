@@ -147,7 +147,6 @@ const nativeMessagingEspeakNG = async input => {
       outputFileHandle = await (await dir.getFile("output.wav", {
         create: false
       })).getFile();
-      // const {name:fileName} = outputFileHandle;
       const result = await outputFileHandle.arrayBuffer();
       await Promise.all(["input.txt", "output.wav"].map(fn => dir.removeEntry(fn)));
       aw = await aw;
