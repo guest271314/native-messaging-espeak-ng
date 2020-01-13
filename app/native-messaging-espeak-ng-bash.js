@@ -99,6 +99,7 @@ const getFileSystem = async _ => {
     status = await dir.requestPermission({
       write: true
     });
+    // create file handle reference here to get, persist write permission
     inputFileHandle = await dir.getFile("input.txt", {
       create: true
     });
