@@ -3,39 +3,30 @@
 # Use of this source code is governed by a BSD-style license that can be
 # found in the LICENSE file.
 #
-# native-messagive-espeak-ng guest271314 1-4-2020
+# native-messagive-espeak-ng-bash guest271314 1-11-2020
 set -e
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 echo $DIR
-mkdir --mode=u+rw "$DIR/data"
 # adjust path to NativeMessagingHost at the OS, browser used, here
-TARGET_DIR="$HOME/.config/chromium/NativeMessagingHosts"
+if [ -d "$HOME/.config/chromium" ]; then 
+  TARGET_DIR="$HOME/.config/chromium/NativeMessagingHosts"
+else
+  TARGET_DIR="$HOME/.config/google-chrome/NativeMessagingHosts"
+fi
 echo $TARGET_DIR
 # name of native messging host
-HOST_NAME="native_messaging_espeak_ng"
+HOST_NAME="native_messaging_espeak_ng_bash"
 # Update host path in the manifest.
-HOST_PATH="$DIR/native-messaging-host.js"
+HOST_PATH="$DIR/native-messaging-espeak-ng-host-bash.sh"
 echo $HOST_PATH
 sed -i -e "s?HOST_PATH?"$HOST_PATH"?" "$HOST_NAME.json"
+cat "$HOST_NAME.json"
 # Create directory to store native messaging host.
 mkdir -p "$TARGET_DIR"
 # Copy native messaging host manifest.
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
 # Set permissions for the manifest so that all users can read it.
 chmod o+r "$TARGET_DIR/$HOST_NAME.json"
-chmod u+x "$DIR/opus-tools_static_build.sh" "$DIR/uninstall_host.sh" "$DIR/protocol.js" "$HOST_PATH" 
-echo "Cloning espeak-ng from github.com..."
-# sudo apt-get install -y make autoconf automake libtool pkg-config gcc libsonic-dev ruby-ronn ruby-kramdown nodejs
-# if ! git -C espeak-ng rev-parse --is-inside-work-tree ; then
-git clone https://github.com/espeak-ng/espeak-ng.git
-# fi
-cd espeak-ng
-./autogen.sh
-./configure
-make clean
-make -B en
-cd ..
-echo "Cloning opus opus-tools libopusenc opusfile libogg flac from GitHub to output opus in ogg container..."
-./opus-tools_static_build.sh
+chmod u+x "$DIR/native-messaging-espeak-ng-host-bash.sh" "$DIR/uninstall_host.sh"
 echo "Native messaging host $HOST_NAME has been installed."
