@@ -5,7 +5,7 @@
 {
   "name": "native_messaging_espeak_ng_bash",
   "description": "espeak-ng using Native Messaging, JavaScript",
-  "path": "/home/ubuntu-studio/native-messaging-espeak-ng-bash/host/native-messaging-espeak-ng-host-bash.sh",
+  "path": "HOST_PATH",
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://mipcnacephfiaegpelgkaacicmahlmjj/"
