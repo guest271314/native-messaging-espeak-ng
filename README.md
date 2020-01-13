@@ -23,30 +23,21 @@ Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpac
 
 <h3>Dependencies</h3>
 
-`make autoconf automake libtool pkg-config  gcc` for [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md).
-
-`nodejs` for Native Messaging host [native-messaging](https://github.com/simov/native-messaging).
-
-`libtool-bin` for `flac`.
-
-[opus-tools_static_build.sh](https://gist.github.com/spvkgn/60c12010d4cae1243dfee45b0821f692) for downloading and building Opus audio encoding dependencies is included in the `host` directory.
+This branch (bash-audioworklet) assumes `espeak-ng` is installed and in `PATH`, else fetch `espeak-ng`, build and set binary in `PATH`.
 
 # Launch
 
-Navigate to `chrome://apps`, select `native-messaging-ng`, click `Connect` HTML button which will execute `chooseFileSystemEntries()`, select `data` directory in `native-messaging-espeak-ng/host`, where the text, XML, WAV, and OGG files will be written, read, then removed when processing input and output of each execution of `espeak-ng` is complete.
-
-To launch by default when Chrome, Chromium browser is launched the command line flag `app-id` can be used `chromium-browser --app-id=pcabbmdaomgegmnmljpebgecllcgbfch`.
+To launch by default when Chrome, Chromium browser is launched the command line flag `app-id` can be used `chromium-browser --app-id=mipcnacephfiaegpelgkaacicmahlmjj/`.
 
 To create an Application or Desktop launcher right-click on the icon at `chrome://apps` and select `Create shortcuts...`.
 
 # Usage
 
-At the URL `chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/native-messaging-espeak-ng.html` press `Connect` to connect to Native Messaging host and select `host/data` directory at Native File System 
-
+At the URL `chrome-extension://mipcnacephfiaegpelgkaacicmahlmjj/native-messaging-espeak-ng-bash.html` click `Choose directory to read/write file entries ('host')` HTML button which will execute `chooseFileSystemEntries()`, select `host` directory in `native-messaging-espeak-ng/`, where the text and WAV files will be written, read, then removed when processing input and output of each execution of `espeak-ng` is complete.
 <pre>
 Let site view files?
 
-<b>chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch</b> will 
+<b>chrome-extension://mipcnacephfiaegpelgkaacicmahlmjj</b> will 
 be able to view files in <b>data</b> until you close this tab
 </pre>
 
@@ -55,23 +46,21 @@ prompt select `View Files`, at
 <pre>
 Save changes to data?
 
-<b>chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch</b> will 
+<b>chrome-extension://mipcnacephfiaegpelgkaacicmahlmjj</b> will 
 be able to edit files in <b>data</b> until you close this tab
 </pre>
 
 select `Save changes`.
 
-
-Type text or SSML into the HTML `<textarea>`, press `Send`. 
-
 An `async` function `nativeMessagingEspeakNG` will be defined which expects plain text, SSML text, or an XML `Document` (`["text/plain", "application/xml", "application/ssml+xml"]`).
+
+To output audio at the system by passing the `ArrayBuffer` to a function `playAudioDataWorkletStream` where we get an `AudioBuffer` representation of the data with `AudioContext` `decodeAudioData()`, get the channel data as a `Float32Array`, transfer the `buffer` to `AudioWorklet` with `postMessage()` of the `MessagePort`, process each element of the `Float32Array` in `AudioWorkletProcessor`.
 
 ```
 nativeMessagingEspeakNG("Hello world")
 .then(async({input, phonemes, result}) => {
   console.log({input, phonemes, result});
-  const audio = new Audio(URL.createObjectURL(new Blob([result])));
-  await audio.play();
+  await playAudioDataWorkletStream(result);
 })
 .catch(console.error);
 ```
@@ -79,7 +68,7 @@ nativeMessagingEspeakNG("Hello world")
 The fulfilled `Promise` will be a plain JavaScript object having three properties, `input`, `phonemes`, `result`
 
 ```
-{input: "Hello world", phonemes: "h@l'oU w'3:ld↵", result: ArrayBuffer(5495)}
+{input: "Hello world", phonemes: "h@l'oU w'3:ld", result: ArrayBuffer(45394)}
 ```
 
 SSML input 
@@ -106,12 +95,12 @@ nativeMessagingEspeakNG(input)
   
 # Messaging
 
-To use `nativeMessagingEspeakNG()` function at a web page other than `chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/native-messaging-espeak-ng.html` set the URL ([`externally_connectable`](https://developer.chrome.com/apps/manifest/externally_connectable)) in `manifest.json` in `app` directory, set to `"https://example.com"` in the repository code for testing.
+To use `nativeMessagingEspeakNG()` function at a web page other than `chrome-extension://mipcnacephfiaegpelgkaacicmahlmjj/native-messaging-espeak-ng-bash.html` set the URL ([`externally_connectable`](https://developer.chrome.com/apps/manifest/externally_connectable)) in `manifest.json` in `app` directory, set to `"https://example.com"` in the repository code for testing.
 
 ```
 "externally_connectable": {
     "matches": ["https://example.com/*"],
-    "ids": ["pcabbmdaomgegmnmljpebgecllcgbfch"]
+    "ids": ["mipcnacephfiaegpelgkaacicmahlmjj"]
 }
 ```
 
@@ -153,51 +142,34 @@ nativeMessagingEspeakNG(input)
 .catch(console.error);
 ```
 
-the difference between the `nativeMessagingEspeakN` function at `chrome://` and the URL set at `matches` is at the web page an XML `Document` is not expected due to the serialization of the message, for that reason `ArrayBuffer` cannot be transferred from the application page to the web page(s) set in `matches` or `"externally_connectable"` property in `manifest.json`.
+the difference between the `nativeMessagingEspeakNG` function at `chrome://` and the URL set at `matches` is at the web page an XML `Document` is not expected due to the serialization of the message, for that reason `ArrayBuffer` cannot be transferred from the application page to the web page(s) set in `matches` or `"externally_connectable"` property in `manifest.json`.
 
 # `MediaStream`, `MediaStreamTrack`
 
-`captureStream()` on an `HTMLMediaElement` and `AudioContext.createMediaStreamDestination()` can be used to get a `MediaStream` of the speech synthesis output. 
-
-Additionally, Chrome, Chromium can be launched with 
-
-- `--use-fake-device-for-media-stream`
-- `--use-fake-ui-for-media-stream`
-- `--use-file-for-fake-audio-capture=/path/to/native-messaging-espeak-ng/host/data/output.wav%noloop`
-
-flags which provide a means to stream the local file as a `MediaStream` after `navigator.mediaDevices.getUserMedia({audio: true})` is executed when the file `native-messaging-espeak-ng.js` is modified within `onNativeMessage` function to not remove the `.wav` file after being written to `native-messaging-espeak-ng/host/data` folder
+We created a `MediaStreamAudioDestinationNode` and an `audioTrack` variable referencing the `MediaStreamTrack` of the `MediaStream` node which we can access for processing
 
 ```
-// Remove "output.wav"
-await Promise.all(["output.wav", "output.ogg", "input.txt"].map(entry => dir.removeEntry(entry)));
+  nativeMessagingEspeakNG(`No limit!`)
+  .then(async({
+    input, phonemes, result
+  }) => {
+    console.log({
+      input, phonemes, result
+    });
+    const recorder = new MediaRecorder(audioStream);
+    recorder.start();
+    recorder.ondataavailable = e => {
+      const reader = new FileReader;
+      reader.onload = e => console.log(reader.result);
+      reader.readAsDataURL(e.data);
+    }
+    console.log(await playAudioDataWorkletStream((result));
+    recorder.stop();
+  })
+  .catch(console.error);
 ```
 
-then at any web page 
-
-```
-navigator.mediaDevices.getUserMedia({audio: true})
-.then(mediaStream => {
-  const audio = new Audio();
-  audio.autoplay = true;
-  audio.srcObject = mediaStream;
-});
-```
-and, or
-
-```
-navigator.mediaDevices.getUserMedia({audio: true})
-.then(mediaStream => {
-  const ac = new AudioContext();
-  const source = ac.createMediaStreamSource(mediaStream);
-  source.connect(ac.destination);
-});
-```
-
-`%noloop` appened to the path to `.wav` file and used within a launcher that parses the input, two `%%` might be neccessary in order to avoid the single `%` being escaped, resulting in `wavoloop`. Executing at the command line does not exhibit that behaviour. 
-
-`%noloop` does not affect `mute` and `ended` events of `MediaStreamTrack` which are not fired when the source `.wav` playback reaches end of file at Chromium 80.
-
-The `MediaStreamTrack` is enabled and does not stop when the `wav` file reaches end of file with `%noloop` set. Analyzing audio output for silence to determining precisely when the audio output has completed could lead to the track being stopped before the next speech synthesis audio output or continuing beyond the playback end of the input `wav` file due to the potential for one or more `<break/>` (`<break time="5000ms"/>`) elements, or other elements or attribute values within input SSML. 
+`AudioContext` `suspend()` and `resume()`, and `MediaStreamTrack` `enabbled` property are used to not stream audio data when not processing the output audio file `"output.wav"` so that the `currentTime` does not progress continuously.
 
 ---
 
