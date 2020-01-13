@@ -1,13 +1,13 @@
 {
-  // Extension ID: pcabbmdaomgegmnmljpebgecllcgbfch
-  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhuXZQwKwPKj5KNVUyNqRdCzNm0l7zRd69xwMt+65zxN+DbaH8yluwj9wduf3r1oHBHVXPdTldEsRg6nJC2/kASWmp/krlSMjf/Zu+xxV4kKLs9iVoHFl06a5aqPa44gOAhKXevKrjDi9vg2eUzMcXe0Mcravq9KTFAJbqenaZLR4B5Hc0J1WLttAnibI9BTZFsl1cGfCQ4pO6myPlldZpZlgS404bf61DJaaSLzjZFbLv8VPUyhtt0buRB/ewXXdqKJZUQ7nmMzh7Z9v7PGxBibluuZ0TCOlQ+AHUheg8tjmAPnSFgIh+jMNp0t+nku/X68IbyulCMdR48DmlO3mhwIDAQAB",
-  "name": "native-messaging-espeak-ng",
+  // Extension ID: mipcnacephfiaegpelgkaacicmahlmjj
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr2ne3vGzNkVj4laFFBvFZh3AjXCXCw23qbuPmakqarxMY6vmj5mjbygbfC9M96FaPvqzY241ouQkcugAkBpby0YAwnGokVZB+b6lzXtSOUaoWxu49LOmL3U4gdu//S8Li9HcQMtw5h2Z192nyV8UrWKBZ4q+MpHAQHvGylILYSiCEVAEjcESbXKLWinX4P+ekGciIstWw8n0uzSyXE+/0xF6X7nwgcr7bKCLkmNOyzk3m3Kq9IgifBQGwKH7s6bSwfRIK/4tZ5w+5n20/WDXaA//MfBg+JHZ6hNOBKDmBB2xFl2X43+qD8MX/1mYzbHxFxXp95Y9s4r4EVI8bqj+jQIDAQAB",
+  "name": "native-messaging-espeak-ng-bash",
   "version": "1.0",
   "manifest_version": 2,
   "description": "espeak-ng using Native Messaging, Native File System, JavaScript",
   "app": {
     "launch": {
-      "local_path": "native-messaging-espeak-ng.html"
+      "local_path": "native-messaging-espeak-ng-bash.html"
     }
   },
   "icons": {},
@@ -15,8 +15,8 @@
     "nativeMessaging"
   ],
   "externally_connectable": {
-    "matches": ["https://example.com/*"],
-    "ids": ["pcabbmdaomgegmnmljpebgecllcgbfch"]
+    "matches": ["https://example.com/"],
+    "ids": ["mipcnacephfiaegpelgkaacicmahlmjj"]
   },
   "author": "guest271314"
 }
