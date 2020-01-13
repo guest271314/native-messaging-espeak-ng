@@ -18,7 +18,7 @@ echo $TARGET_DIR
 # name of native messging host
 HOST_NAME="native_messaging_espeak_ng_bash"
 # Update host path in the manifest.
-HOST_PATH="$DIR/native-messaging-espeak-ng-host-bash.sh"
+HOST_PATH="$DIR/native-messaging-host-bash.sh"
 echo $HOST_PATH
 sed -i -e "s?HOST_PATH?"$HOST_PATH"?" "$HOST_NAME.json"
 cat "$HOST_NAME.json"
@@ -28,5 +28,5 @@ mkdir -p "$TARGET_DIR"
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
 # Set permissions for the manifest so that all users can read it.
 chmod o+r "$TARGET_DIR/$HOST_NAME.json"
-chmod u+x "$DIR/native-messaging-espeak-ng-host-bash.sh" "$DIR/uninstall_host.sh"
+chmod u+x "$DIR/native-messaging-host-bash.sh" "$DIR/uninstall_host.sh"
 echo "Native messaging host $HOST_NAME has been installed."
