@@ -3,12 +3,12 @@
 // found in the LICENSE file.
 
 {
-  "name": "native_messaging_espeak_ng",
+  "name": "native_messaging_espeak_ng_bash",
   "description": "espeak-ng using Native Messaging, JavaScript",
-  "path": "HOST_PATH",
+  "path": "/home/ubuntu-studio/native-messaging-espeak-ng-bash/host/native-messaging-espeak-ng-host-bash.sh",
   "type": "stdio",
   "allowed_origins": [
-    "chrome-extension://pcabbmdaomgegmnmljpebgecllcgbfch/"
+    "chrome-extension://mipcnacephfiaegpelgkaacicmahlmjj/"
   ],
   "author": "guest271314"
 }
