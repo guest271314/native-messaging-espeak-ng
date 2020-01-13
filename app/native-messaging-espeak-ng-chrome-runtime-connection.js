@@ -1,6 +1,6 @@
-// native-messaging-espeak-ng guest271314 1-4-2020
+// native-messaging-espeak-ng-bash guest271314 1-11-2020
 // espeak-ng using Native Messaging, Native File System, JavaScript
-const nativeMessagingEspeakNGId = "pcabbmdaomgegmnmljpebgecllcgbfch";
+const nativeMessagingEspeakNGId = "mipcnacephfiaegpelgkaacicmahlmjj";
 // Throws Unchecked runtime.lastError: Could not establish connection. Receiving end does not exist.
 // if URL is not listed in matches property of manifest.json
 const nativeMessagingEspeakNGPort = chrome.runtime.connect(nativeMessagingEspeakNGId);
