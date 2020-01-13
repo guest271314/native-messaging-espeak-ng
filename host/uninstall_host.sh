@@ -6,7 +6,11 @@
 set -e
 # path to NativeMessagingHosts in Chromium user data directory at *nix
 # adjust path to NativeMessagingHost at the OS, browser used, here
-TARGET_DIR="$HOME/.config/chromium/NativeMessagingHosts"
-HOST_NAME="native_messaging_espeak_ng"
+if [ -d "$HOME/.config/chromium" ]; then 
+  TARGET_DIR="$HOME/.config/chromium/NativeMessagingHosts"
+else
+  TARGET_DIR="$HOME/.config/google-chrome/NativeMessagingHosts"
+fi
+HOST_NAME="native_messaging_espeak_ng_bash"
 rm "$TARGET_DIR/$HOST_NAME.json"
 echo "Native messaging host $HOST_NAME has been uninstalled."
