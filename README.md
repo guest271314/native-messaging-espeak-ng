@@ -9,7 +9,7 @@ Output speech sythesis audio as a media stream (media stream track).
 
 # Synopsis
 
-Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) and [Native File System](https://github.com/WICG/native-file-system) to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) to execute [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), get speech synthesis output as [Opus](https://github.com/xiph/opus) encoded audio repersented as `ArrayBuffer` in the browser, at both the Chromium, Chrome App page, and any web page set to as URL to match in `manifest.json`. 
+Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) and [Native File System](https://github.com/WICG/native-file-system) to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) to execute [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), get speech synthesis output as `WAV` encoded audio repersented as `ArrayBuffer` in the browser, at both the Chromium, Chrome App page, and any web page set to as URL to match in `manifest.json`. 
 
 # Install
 ```
