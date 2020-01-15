@@ -97,7 +97,8 @@ const getFileSystem = async _ => {
       type: "openDirectory"
     });
     status = await dir.requestPermission({
-      write: true
+      // https://bugs.chromium.org/p/chromium/issues/detail?id=1042018#c3
+      writable: true
     });
     // create file handle reference here to get, persist write permission
     inputFileHandle = await dir.getFile("input.txt", {
