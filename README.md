@@ -12,14 +12,6 @@ Output speech sythesis audio as a media stream (media stream track).
 Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) and [Native File System](https://github.com/WICG/native-file-system) to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) to execute [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), get speech synthesis output as [Opus](https://github.com/xiph/opus) encoded audio repersented as `ArrayBuffer` in the browser, at both the Chromium, Chrome App page, and any web page set to as URL to match in `manifest.json`. 
 
 # Install
-```
-git clone https://github.com/guest271314/native-messaging-espeak-ng.git
-cd native-messaging-espeak-ng/host
-chmod u+x *.sh *.js
-./install_host.sh
-```
-
-Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select `app` folder in `native-messaging-espeak-ng` directory.
 
 <h3>Dependencies</h3>
 
@@ -30,6 +22,15 @@ Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpac
 `libtool-bin` for `flac`.
 
 [opus-tools_static_build.sh](https://gist.github.com/spvkgn/60c12010d4cae1243dfee45b0821f692) for downloading and building Opus audio encoding dependencies is included in the `host` directory.
+
+```
+git clone https://github.com/guest271314/native-messaging-espeak-ng.git
+cd native-messaging-espeak-ng/host
+chmod u+x *.sh *.js
+./install_host.sh
+```
+
+Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select `app` folder in `native-messaging-espeak-ng` directory.
 
 # Launch
 
