@@ -13,7 +13,7 @@ Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging) 
 
 # Install
 ```
-git https://github.com/guest271314/native-messaging-espeak-ng.git
+git clone https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-maessaging-espeak-ng/host
 chmod u+x *.sh *.js
 ./install_host.sh
