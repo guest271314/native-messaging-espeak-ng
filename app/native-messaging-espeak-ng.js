@@ -94,7 +94,7 @@ const connect = async e => {
   if (!status || status !== "granted") {
     // request write access to native file system "host/data" directory
     dir = await self.chooseFileSystemEntries({
-      type: "openDirectory",
+      type: "open-directory",
       accepts: [{
         description: "Text or SSML",
         mimeTypes: ["text/plain", "application/xml", "application/ssml+xml"],
