@@ -198,7 +198,9 @@ navigator.mediaDevices.getUserMedia({audio: true})
 
 `%noloop` does not affect `mute` and `ended` events of `MediaStreamTrack` which are not fired when the source `.wav` playback reaches end of file at Chromium 80.
 
-The `MediaStreamTrack` is enabled and does not stop when the `wav` file reaches end of file with `%noloop` set. Analyzing audio output for silence to determining precisely when the audio output has completed could lead to the track being stopped before the next speech synthesis audio output or continuing beyond the playback end of the input `wav` file due to the potential for one or more `<break/>` (`<break time="5000ms"/>`) elements, or other elements or attribute values within input SSML. 
+The `MediaStreamTrack` is enabled and does not stop when the `wav` file reaches end of file with `%noloop` set. 
+
+Analyzing audio output for silence to determine precisely when the audio output has completed could lead to the track being stopped before the next speech synthesis audio output or continuing beyond the playback end of the input `wav` file due to the potential for one or more `<break/>` (`<break time="5000ms"/>`) elements, or other elements or attribute values within input text or SSML where silence could be expected; for example, pauses between line, paragrpah, chapter, breaks.
 
 ---
 
