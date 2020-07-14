@@ -31,7 +31,7 @@ const sendNativeMessage = async input => {
     const fileHandle = await dir.getFile("input.txt", {
       create: true
     });
-    const writer = await fileHandle["createWriter" in fileHandle ? fileHandle.createWriter : fileHandle.createWritable]();
+    const writer = await fileHandle["createWriter" in fileHandle ? "createWriter" : "createWritable"]();
     await writer.write(new Blob([input], {
       type: "text/plain"
     }));
@@ -93,7 +93,7 @@ const connect = async e => {
   port = chrome.runtime.connectNative(hostName);
   if (!status || status !== "granted") {
     // request write access to native file system "host/data" directory
-    dir = await ["chooseFileSystemEntries" in self ? self.chooseFileSystemEntries : self.showDirectoryPicker]({
+    dir = await self["chooseFileSystemEntries" in self ? "chooseFileSystemEntries" : "showDirectoryPicker"]({
       type: "open-directory",
       accepts: [{
         description: "Text or SSML",
