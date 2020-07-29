@@ -18,7 +18,7 @@ HOST_NAME="native_messaging_espeak_ng"
 HOST_PATH="$DIR/native-messaging-host.js"
 echo $HOST_PATH
 sed -i -e "s?HOST_PATH?"$HOST_PATH"?" "$HOST_NAME.json"
-# Create directory to store native messaging host.
+# Create directory to store native messaging host, if does not exist.
 mkdir -p "$TARGET_DIR"
 # Copy native messaging host manifest.
 cp "$DIR/$HOST_NAME.json" "$TARGET_DIR"
