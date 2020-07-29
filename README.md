@@ -154,7 +154,7 @@ nativeMessagingEspeakNG(input)
 .catch(console.error);
 ```
 
-the difference between the `nativeMessagingEspeakN` function at `chrome://` and the URL set at `matches` is at the web page an XML `Document` is not expected due to the serialization of the message, for that reason `ArrayBuffer` cannot be transferred from the application page to the web page(s) set in `matches` or `"externally_connectable"` property in `manifest.json`.
+the difference between the `nativeMessagingEspeakN` function at `chrome://` and the URL set at `matches` is at the URL where the external connection is made is that an XML `Document` is not expected to be passed to the function `NativeMessagingEspeakNG` due to the serialization of the message, for that reason `ArrayBuffer` cannot be transferred from the application page to the URL's set in `matches` or `"externally_connectable"` property in `manifest.json`.
 
 # `MediaStream`, `MediaStreamTrack`
 
