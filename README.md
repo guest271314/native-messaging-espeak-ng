@@ -55,6 +55,12 @@ console.log(
 );
 ```
   
+Abort the request and audio output.
+  
+```
+await espeakng.abort()
+```
+  
 To turn local server on and off with user action pin and click the extension icon on Chromium or Chrome toolbar.
 
 <h5>References</h5>
