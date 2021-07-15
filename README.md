@@ -6,6 +6,8 @@ See [Issue 1115640: [FUGU] NativeTransferableStream](https://bugs.chromium.org/p
 
 <h5>Synopsis</h5>
 
+Native Messaging => eSpeak NG => PHP `passthru()` => `fetch()` => Transferable Streams => `MediaStreamTrack`.
+
 Use local `espeak-ng` with `-m` option set in the browser. 
 
 Output speech sythesis audio as a live `MediaStreamTrack`.
@@ -28,7 +30,7 @@ chmod +x local_server.sh index.php
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select downloaded git directory.
 
-Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, add the value to `"extensions"` array in `manifest.json`.
+Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `index.php`; add the value to `"extensions"` array in `manifest.json`.
 
 Set `"path"` in `native_messaging_espeakng.json` to full local path to `local_server.sh`.
 
