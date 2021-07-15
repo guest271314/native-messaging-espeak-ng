@@ -40,7 +40,7 @@ Copy `native_messaging_espeakng.json` to `NativeMessagingHosts` directory in Chr
 
 Reload extension.
 
-  <h5>Usage</h5>
+<h5>Usage</h5>
 
 On origins listed in `"matches"` array in `"web_accessible_resources"` object in `manifest.json`, e.g., at `console`
 
@@ -54,8 +54,10 @@ console.log(
   URL.createObjectURL(new Blob([ab], { type: 'audio/webm;codecs=opus' }))
 );
 ```
+  
+To turn local server on and off with user action pin and click the extension icon on Chromium or Chrome toolbar.
 
-<h6>References</h6>
+<h5>References</h5>
 
 - [Include test for setting an SSML document at SpeechSynthesisUtterance .text property within speech-api](https://github.com/web-platform-tests/wpt/issues/8712)
 - [This is again recording from microphone, not from audiooutput device](https://github.com/guest271314/SpeechSynthesisRecorder/issues/14)
