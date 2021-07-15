@@ -20,7 +20,7 @@ class AudioStream {
     this.sampleRate = 22050;
     this.numberOfChannels = 1;
     this.src =
-      'chrome-extension://bmlkgdnflcikcpanhbfbeeolanglmgib/nativeTransferableStream.html';
+      'chrome-extension://<id>/nativeTransferableStream.html';
     this.ac = new AudioContext({
       latencyHint: 0,
     });
