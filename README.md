@@ -49,6 +49,11 @@ var text = `Test`;
 var stdin = `espeak-ng -m --stdout "${text}"`;
 var espeakng = new AudioStream({ stdin, recorder: true });
 // espeakng.mediaStream: MediaStream containing MediaStreamTrack source output of espeak-ng --stdout
+// var recorder = new MediaRecorder(espeakng.mediaStream);
+// recorder.ondataavailable = ({ data }) => console.log(URL.createObjectURL(data));
+// recorder.start();
+// console.log(await espeakng.start());
+// if (recorder.state === 'recording') recorder.stop();
 var ab = await espeakng.start();
 console.log(
   URL.createObjectURL(new Blob([ab], { type: 'audio/webm;codecs=opus' }))
