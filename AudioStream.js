@@ -222,7 +222,7 @@ class AudioStream {
                 floats[i] = float;
               }
               const frame = new AudioData({
-                format: 'FLTP',
+                format: 'f32-planar',
                 sampleRate: 22050,
                 numberOfChannels: 1,
                 numberOfFrames: 220,
