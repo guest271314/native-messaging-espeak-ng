@@ -36,7 +36,7 @@ Substitute full local path to `local_server.sh` for `/path/to` in `native_messag
 
 Copy `native_messaging_espeakng.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
 
-`cp native_messaging_espeakng ~/.config/chromium/NativeMessagingHosts`
+`cp native_messaging_espeakng.json ~/.config/chromium/NativeMessagingHosts`
 
 Reload extension.
 
