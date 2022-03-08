@@ -33,6 +33,10 @@ Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpac
 Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `index.php`; add the value to `"extensions"` array in `manifest.json`.
 
 Substitute full local path to `local_server.sh` for `/path/to` in `native_messaging_espeakng.json`.
+  
+```
+"allowed_origins": [ "chrome-extension://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/*" ]
+```
 
 Copy `native_messaging_espeakng.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
 
