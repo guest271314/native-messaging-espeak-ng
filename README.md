@@ -75,7 +75,7 @@ const server = Deno.listenTls({
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select downloaded git directory.
 
-Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `deno_server.js`; add the value to `"extensions"` array in `manifest.json`.
+Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `deno_server.js`.
 
 Substitute full local path to `local_server.sh` for `/path/to` in `native_messaging_espeakng.json`.
   
