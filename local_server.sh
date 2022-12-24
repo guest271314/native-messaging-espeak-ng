@@ -21,10 +21,10 @@ send_message() {
         $messagelen1 $messagelpen2 $messagelen3 $messagelen4)%s" "$message"
 }
 local_server() {
-  if pgrep -f 'php -S localhost:8000' > /dev/null; then
-    pkill -f 'php -S localhost:8000' & send_message '"Local server off."' 
+  if pgrep -f './deno run --allow-net --allow-read --allow-run --unstable deno_server.js' > /dev/null; then
+    pkill -f './deno run --allow-net --allow-read --allow-run --unstable deno_server.js' & send_message '"Local server off."' 
   else
-    php -S localhost:8000 & send_message '"Local server on."'
+    ./deno run --allow-net --allow-read --allow-run --unstable deno_server.js & send_message '"Local server on."'
   fi
 }
 local_server
