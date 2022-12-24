@@ -33,7 +33,7 @@ wget --show-progress --progress=bar --output-document deno.zip \
  rm deno.zip
  ```
   
-  Follow [these instructions](https://github.com/GoogleChrome/samples/blob/gh-pages/webtransport/webtransport_server.py#L42-L72) at 1., 2., 4. to create a self-signed certificate for Chromium/Chrome to use for HTTPS.
+  Follow [these instructions](https://github.com/GoogleChrome/samples/blob/gh-pages/webtransport/webtransport_server.py#L42-L72) at `1.`, `2.`, and `4.` to create a self-signed certificate for Chromium/Chrome to use for HTTPS.
   
 ```
 # As an alternative, Chromium can be instructed to trust a self-signed
