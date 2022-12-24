@@ -4,8 +4,8 @@ class AudioStream {
       throw new Error(`stdin should begin with "espeak-ng" command`);
     }
     this.command = stdin;
-    const [argv, argc] = Object.values(this.command);
-    this.stdin = [...argv.split(' '), argc];
+    const [cmd, input] = Object.values(this.command);
+    this.stdin = [...cmd.split(' '), input]; // input: Text or SSML
     this.readOffset = 0;
     this.duration = 0;
     this.channelDataLength = 440;
