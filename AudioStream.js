@@ -1,19 +1,11 @@
 class AudioStream {
   constructor({ stdin, recorder = false }) {
-    if (!/^espeak-ng/.test(stdin)) {
+    if (!/^espeak-ng/.test(stdin.cmd)) {
       throw new Error(`stdin should begin with "espeak-ng" command`);
     }
     this.command = stdin;
-    this.stdin = new ReadableStream({
-      start(c) {
-        c.enqueue(
-          new File([stdin], 'espeakng', {
-            type: 'application/octet-stream',
-          })
-        );
-        c.close();
-      },
-    });
+    const [argv, argc] = Object.values(this.command);
+    this.stdin = [...argv.split(' '), argc];
     this.readOffset = 0;
     this.duration = 0;
     this.channelDataLength = 440;
@@ -131,7 +123,7 @@ class AudioStream {
         if (typeof e.data === 'string') {
           console.log(e.data);
           if (e.data === 'Ready.') {
-            this.source.postMessage(this.stdin, '*', [this.stdin]);
+            this.source.postMessage(this.stdin, '*');
           }
           if (e.data === 'Local server off.') {
             document.body.removeChild(this.transferableWindow);
@@ -183,7 +175,9 @@ class AudioStream {
             close: async () => {
               console.log('Done writing input stream.');
               if (channelData.length) {
-                this.inputController.enqueue(new Uint8Array(channelData.splice(0, channelData.length)));
+                this.inputController.enqueue(
+                  new Uint8Array(channelData.splice(0, channelData.length))
+                );
               }
               this.inputController.close();
               this.source.postMessage('Done writing input stream.', '*');
@@ -219,11 +213,12 @@ class AudioStream {
                 timestamp,
                 data: value,
               });
-              this.duration += (frame.duration / 10**6);
+              this.duration += frame.duration / 10 ** 6;
               if (this.recorder && this.recorder.state === 'inactive') {
                 this.recorder.start();
               }
               await this.audioWriter.write(frame);
+              //gc();
             },
             abort(e) {
               console.error(e.message);
@@ -247,3 +242,5 @@ class AudioStream {
     }
   }
 }
+
+export {AudioStream};
