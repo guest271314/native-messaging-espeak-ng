@@ -28,9 +28,9 @@ git clone --branch deno-server https://github.com/guest271314/native-messaging-e
 cd native-messaging-espeak-ng
 chmod +x local_server.sh
 wget --show-progress --progress=bar --output-document deno.zip https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip && \
-unzip deno.zip && \
-rm deno.zip
-```
+ unzip deno.zip && \
+ rm deno.zip
+ ```
   
   Follow [these instructions](https://github.com/GoogleChrome/samples/blob/c2493348944e601e9ee45ae077811d48eb10c6e0/webtransport/webtransport_server.py#L72) to create a self-signed certificate for Chromium/Chrome to use for HTTPS.
   
