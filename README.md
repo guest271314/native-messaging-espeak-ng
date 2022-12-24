@@ -12,7 +12,7 @@ Use local `espeak-ng` with `-m` option set in the browser.
 
 Output speech sythesis audio as a live `MediaStreamTrack`.
 
-Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging), PHP `passthru()` to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) as STDIN to [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), stream STDOUT in "real-time" as live `MediaStreamTrack`. 
+Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging), Deno `run()` to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) as STDIN to [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), stream STDOUT in "real-time" as live `MediaStreamTrack`. 
 
 <h5>Install<h5>
 
