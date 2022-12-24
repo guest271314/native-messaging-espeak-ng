@@ -20,12 +20,12 @@ Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging),
 
 eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md#building-espeak-ng).
 
-[Deno](https://github.com/denoland/deno) is used for `Deno.listenTls()` and `Deno.run()`. Substitute server language of choice.
+[Deno](https://github.com/denoland/deno) is used for `Deno.listenTls()` and `Deno.run()`. Substitute server language of choice. We do not install the `deno` executable globally; we just use the executable in the unpacked extension directory.
  
 
 ```
 git clone --branch deno-server https://github.com/guest271314/native-messaging-espeak-ng.git
-cd native-messaging-espeak-ng/
+cd native-messaging-espeak-ng
 chmod +x local_server.sh
 wget --show-progress --progress=bar --output-document deno.zip \
   https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip \ 
