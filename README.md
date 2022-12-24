@@ -6,7 +6,7 @@ See [Issue 1115640: [FUGU] NativeTransferableStream](https://bugs.chromium.org/p
 
 <h5>Synopsis</h5>
 
-Native Messaging => eSpeak NG => PHP `passthru()` => `fetch()` => Transferable Streams => `MediaStreamTrack`.
+Native Messaging => eSpeak NG => `Deno.run()` => `fetch()` => Transferable Streams => `MediaStreamTrack`.
 
 Use local `espeak-ng` with `-m` option set in the browser. 
 
@@ -20,17 +20,62 @@ Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging),
 
 eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md#building-espeak-ng).
 
-PHP is used for `passthru()`. Substitute server language of choice.
+[Deno](https://github.com/denoland/deno) is used for `Deno.listenTls()` and `Deno.run()`. Substitute server language of choice.
+ 
 
 ```
-git clone https://github.com/guest271314/native-messaging-espeak-ng.git
+git clone --branch deno-server https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-messaging-espeak-ng/
-chmod +x local_server.sh index.php
+chmod +x local_server.sh
+wget --show-progress --progress=bar --output-document deno.zip \
+  https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip \ 
+  && unzip deno.zip \ 
+  && rm deno.zip  
+```
+  
+  Follow [these instructions](https://github.com/GoogleChrome/samples/blob/c2493348944e601e9ee45ae077811d48eb10c6e0/webtransport/webtransport_server.py#L72) to create a self-signed certificate for Chromium/Chrome to use for HTTPS.
+  
+```
+# As an alternative, Chromium can be instructed to trust a self-signed
+# certificate using command-line flags.  Here are step-by-step instructions on
+# how to do that:
+#
+#   1. Generate a certificate and a private key:
+#         openssl req -newkey rsa:2048 -nodes -keyout certificate.key \
+#                   -x509 -out certificate.pem -subj '/CN=Test Certificate' \
+#                   -addext "subjectAltName = DNS:localhost"
+#
+#   2. Compute the fingerprint of the certificate:
+#         openssl x509 -pubkey -noout -in certificate.pem |
+#                   openssl rsa -pubin -outform der |
+#                   openssl dgst -sha256 -binary | base64
+#      The result should be a base64-encoded blob that looks like this:
+#          "Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck="
+#
+#   3. Pass a flag to Chromium indicating what host and port should be allowed
+#      to use the self-signed certificate.  For instance, if the host is
+#      localhost, and the port is 4433, the flag would be:
+#         --origin-to-force-quic-on=localhost:4433
+#
+#   4. Pass a flag to Chromium indicating which certificate needs to be trusted.
+#      For the example above, that flag would be:
+#         --ignore-certificate-errors-spki-list=Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck=
+```
+  
+Pass the generated paths to `Deno.listenTls()` in `deno_server.js`
+  
+```
+const server = Deno.listenTls({
+  port: 8443,
+  certFile: 'certificate.pem',
+  keyFile: 'certificate.key',
+  alpnProtocols: ['h2', 'http/1.1'],
+});
 ```
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select downloaded git directory.
 
-Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `index.php`; add the value to `"extensions"` array in `manifest.json`.
+Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `deno_server.js`; add the value to `"extensions"` array in `manifest.json`.
 
 Substitute full local path to `local_server.sh` for `/path/to` in `native_messaging_espeakng.json`.
   
@@ -49,6 +94,7 @@ Reload extension.
 On origins listed in `"matches"` array in `"web_accessible_resources"` object in `manifest.json`, e.g., at `console`
 
 ```
+var { AudioStream } = await import('chrome-extension://<id>/AudioStream.js');
 var text = `Test`;
 var stdin = `espeak-ng -m --stdout "${text}"`;
 var espeakng = new AudioStream({ stdin, recorder: true });
@@ -70,8 +116,6 @@ Abort the request and audio output.
 await espeakng.abort()
 ```
   
-To turn local server on and off with user action pin and click the extension icon on Chromium or Chrome toolbar.
-
 <h5>References</h5>
 
 - [Include test for setting an SSML document at SpeechSynthesisUtterance .text property within speech-api](https://github.com/web-platform-tests/wpt/issues/8712)
