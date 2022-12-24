@@ -1,4 +1,4 @@
-onload = async () => {
+onload = () => {
   chrome.runtime.sendNativeMessage(
     'native_messaging_espeakng',
     {},
@@ -9,17 +9,14 @@ onload = async () => {
       const { signal } = controller;
       parent.postMessage('Ready.', name);
       onmessage = async (e) => {
-        if (e.data instanceof ReadableStream) {
+        console.log(e.data);
+        if (e.data instanceof Array) {
           try {
-            const { value: file, done } = await e.data.getReader().read();
-            const fd = new FormData();
-            const stdin = await file.text();
-            fd.append(file.name, stdin);
-            const { body } = await fetch('http://localhost:8000', {
+            const { body } = await fetch('https://localhost:8443', {
               method: 'post',
               cache: 'no-store',
               credentials: 'omit',
-              body: fd,
+              body: JSON.stringify(e.data),
               signal,
             });
             parent.postMessage(body, name, [body]);
