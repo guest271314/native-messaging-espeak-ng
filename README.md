@@ -27,7 +27,8 @@ eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/maste
 git clone --branch deno-server https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-messaging-espeak-ng
 chmod +x local_server.sh
-wget --show-progress --progress=bar --output-document deno.zip https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip && \
+wget --show-progress --progress=bar --output-document deno.zip \
+ https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip && \
  unzip deno.zip && \
  rm deno.zip
  ```
