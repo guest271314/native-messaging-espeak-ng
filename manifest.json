@@ -1,17 +1,34 @@
 {
   "name": "Native Messaging espeak-ng",
-  "description": "Native Messaging => eSpeak NG => PHP passthru() => fetch() => Transferable Streams => MediaStreamTrack",
+  "description": "Native Messaging => Deno run() => eSpeak NG => MediaStreamTrack",
   "version": "2.0",
   "manifest_version": 3,
-  "permissions": ["nativeMessaging", "tabs"],
+  "permissions": [
+    "nativeMessaging",
+    "activeTab",
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://localhost:*/*"
+  ],
   "background": {
     "service_worker": "background.js"
   },
-  "web_accessible_resources": [    {
-      "resources": [ "nativeTransferableStream.html", "nativeTransferableStream.js" ],
-      "matches": [ "https://github.com/*", "https://bugs.chromium.org/*" ],
-      "extensions": [ ]
-  }],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "nativeTransferableStream.html",
+        "nativeTransferableStream.js",
+        "AudioStream.js"
+      ],
+      "matches": [
+        "https://github.com/*"
+      ],
+      "extensions": []
+    }
+  ],
   "action": {},
-  "author": "guest271314"
+  "author": "guest271314",
+  "homepage_url": "https://github.com/guest271314/native-messaging-espeak-ng/tree/deno-server"
 }
