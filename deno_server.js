@@ -1,5 +1,5 @@
 // https://deno.land/manual@v1.26.2/runtime/http_server_apis_low_level
-// Start listening on port 8080 of localhost.
+// Start listening on port 8443 of localhost.
 const server = Deno.listenTls({
   port: 8443,
   certFile: 'certificate.pem',
