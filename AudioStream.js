@@ -87,7 +87,7 @@ class AudioStream {
   }
   async disconnect(abort = false) {
     if (abort) {
-      this.audioReadableAbortable.abort();
+      this.audioReadableAbortable.abort('AudioStream aborted.');
     }
     this.msd.disconnect();
     this.osc.disconnect();
