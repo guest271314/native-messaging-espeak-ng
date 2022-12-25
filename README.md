@@ -128,7 +128,7 @@ It’s like they say - if the system fails you, you create your own system.
 
 - Michael K. Williams, Black Market`;
  
-var stdin = {cmd:`espeak-ng -m --stdout`, text:`"${text}"`};
+var stdin = {cmd:`espeak-ng -m -v Storm --stdout`, text:`"${text}"`};
 
 var espeakng = new AudioStream({ stdin, recorder: true });
  
