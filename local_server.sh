@@ -1,5 +1,7 @@
 #!/bin/bash
 # https://stackoverflow.com/a/24777120
+# Use nativeTransferableStream.js in main branch with Bash (and set local_server as executable):
+# To use runtime.sendNativeMessage() instead of runtime.connectNative().
 send_message() {
   message="$1"
   # Calculate the byte size of the string.
