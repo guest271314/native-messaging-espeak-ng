@@ -17,7 +17,6 @@ onload = () => {
     const { signal } = controller;
     parent.postMessage('Ready.', name);
     onmessage = async (e) => {
-      console.log(e.data);
       if (e.data instanceof Array) {
         try {
           const { body } = await fetch('https://localhost:8443', {
