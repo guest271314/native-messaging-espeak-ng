@@ -40,6 +40,7 @@ const handleMessage = async (nativeMessage) => {
       if (e.data === 'Abort.') {
         port.disconnect();
         controller.abort();
+        close();
       }
     }
   };
