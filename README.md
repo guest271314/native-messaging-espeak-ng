@@ -26,7 +26,7 @@ eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/maste
 ```
 git clone --branch deno-server https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-messaging-espeak-ng
-chmod +x local_server.sh
+chmod u+x nm_deno.js deno_server.js
 wget --show-progress --progress=bar --output-document deno.zip \
  https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip && \
  unzip deno.zip && \
@@ -77,7 +77,7 @@ Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpac
 
 Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `deno_server.js`.
 
-Substitute full local path to `local_server.sh` for `/path/to` in `native_messaging_espeakng.json`.
+Substitute full local path to `nm_deno.js` for `/path/to` in `native_messaging_espeakng.json`.
   
 ```
 "allowed_origins": [ "chrome-extension://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/*" ]
