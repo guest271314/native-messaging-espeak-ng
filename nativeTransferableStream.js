@@ -10,8 +10,6 @@ const handleMessage = async (nativeMessage) => {
     }
   });
   parent.postMessage(nativeMessage, name);
-  // Wait 100ms for server process to start
-  await new Promise((resolve) => setTimeout(resolve, 100));
   const controller = new AbortController();
   const { signal } = controller;
   parent.postMessage('Ready.', name);
