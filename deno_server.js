@@ -1,3 +1,4 @@
+#!/usr/bin/env -S ./deno run --allow-run --allow-net --allow-read --unstable --v8-flags="--expose-gc,--jitless"
 // https://deno.land/manual@v1.26.2/runtime/http_server_apis_low_level
 // Start listening on port 8443 of localhost.
 const server = Deno.listenTls({
