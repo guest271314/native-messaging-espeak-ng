@@ -6,7 +6,7 @@ See [Issue 1115640: [FUGU] NativeTransferableStream](https://bugs.chromium.org/p
 
 <h5>Synopsis</h5>
 
-Native Messaging => eSpeak NG => `Deno.run()` => `fetch()` => Transferable Streams => `MediaStreamTrack`.
+Native Messaging => `Deno.Command()` => eSpeak NG => `fetch()` => Transferable Streams => `MediaStreamTrack`.
 
 Use local `espeak-ng` with `-m` option set in the browser. 
 
@@ -20,7 +20,7 @@ Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging),
 
 eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md#building-espeak-ng).
 
-[Deno](https://github.com/denoland/deno) is used for `serveTls()` and `Deno.Comman()`. Substitute your server language of choice. We do not install the `deno` executable globally; we just use the executable in the unpacked extension directory.
+[Deno](https://github.com/denoland/deno) is used for `serveTls()` and `Deno.Command()`. Substitute your server language of choice. We do not install the `deno` executable globally; we just use the executable in the unpacked extension directory.
  
 
 ```
