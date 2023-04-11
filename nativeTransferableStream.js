@@ -14,7 +14,7 @@ const handleMessage = async (nativeMessage) => {
   const { signal } = controller;
   parent.postMessage('Ready.', name);
   onmessage = async (e) => {
-    if (e.data instanceof Array) {
+    if (/^espeak-ng\s/.test(e.data.cmd)) {
       try {
         const { body } = await fetch('https://localhost:8443', {
           method: 'post',
@@ -40,9 +40,14 @@ const handleMessage = async (nativeMessage) => {
         controller.abort();
         close();
       }
+      if (!/^espeak-ng\s/.test(e.data.cmd)) {
+        parent.postMessage('Command does not start with espeak-ng', name);
+      }
     }
   };
 };
 const port = chrome.runtime.connectNative('native_messaging_espeakng');
 port.onMessage.addListener(handleMessage);
+port.postMessage(null);
+
 port.postMessage(null);
