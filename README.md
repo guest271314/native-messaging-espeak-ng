@@ -20,7 +20,7 @@ Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging),
 
 eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md#building-espeak-ng).
 
-[Deno](https://github.com/denoland/deno) is used for `Deno.listenTls()` and `Deno.run()`. Substitute server language of choice. We do not install the `deno` executable globally; we just use the executable in the unpacked extension directory.
+[Deno](https://github.com/denoland/deno) is used for `serveTls()` and `Deno.Comman()`. Substitute your server language of choice. We do not install the `deno` executable globally; we just use the executable in the unpacked extension directory.
  
 
 ```
@@ -62,25 +62,27 @@ wget --show-progress --progress=bar --output-document deno.zip \
 #         --ignore-certificate-errors-spki-list=Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck=
 ```
   
-Pass the generated paths to `Deno.listenTls()` in `deno_server.js`
+Pass the generated paths to `Deno.serveTls()` in `local_server.js`
   
 ```
-const server = Deno.listenTls({
-  port: 8443,
+ await serveTls(async(request) => {
+ // ...
+ }
+ , {
   certFile: 'certificate.pem',
   keyFile: 'certificate.key',
-  alpnProtocols: ['h2', 'http/1.1'],
-});
+  signal, 
+ });
 ```
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select downloaded git directory.
 
-Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `deno_server.js`.
+Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `local_server.js`.
 
-Substitute full local path to `nm_deno.js` for `/path/to` in `native_messaging_espeakng.json`.
+Substitute full local path to `local_server.js` for `/path/to` in `native_messaging_espeakng.json`.
   
 ```
-"allowed_origins": [ "chrome-extension://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/*" ]
+"allowed_origins": [ "chrome-extension://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/" ]
 ```
 
 Copy `native_messaging_espeakng.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
@@ -128,7 +130,7 @@ It’s like they say - if the system fails you, you create your own system.
 
 - Michael K. Williams, Black Market`;
  
-var stdin = {cmd:`espeak-ng -m -v Storm --stdout`, text:`"${text}"`};
+var stdin = {cmd:`espeak-ng -m -v Storm --stdout`, input:`"${text}"`};
 
 var espeakng = new AudioStream({ stdin, recorder: true });
  
