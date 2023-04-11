@@ -49,5 +49,3 @@ const handleMessage = async (nativeMessage) => {
 const port = chrome.runtime.connectNative('native_messaging_espeakng');
 port.onMessage.addListener(handleMessage);
 port.postMessage(null);
-
-port.postMessage(null);
