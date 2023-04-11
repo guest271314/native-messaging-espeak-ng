@@ -1,11 +1,12 @@
 class AudioStream {
   constructor({ stdin, recorder = false }) {
-    if (!/^espeak-ng/.test(stdin.cmd)) {
+    if (!/^espeak-ng\s/.test(stdin.cmd)) {
       throw new Error(`stdin should begin with "espeak-ng" command`);
     }
-    this.command = stdin;
-    const [cmd, input] = Object.values(this.command);
-    this.stdin = [...cmd.split(' '), input]; // input: Text or SSML
+    // stdin
+    // cmd: Command beginning with 'espeak-ng '
+    // input: Text or SSML
+    this.stdin = stdin;
     this.readOffset = 0;
     this.duration = 0;
     this.channelDataLength = 440;
