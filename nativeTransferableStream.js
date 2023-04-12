@@ -40,9 +40,6 @@ const handleMessage = async (nativeMessage) => {
         controller.abort();
         close();
       }
-      if (!/^espeak-ng\s/.test(e.data.cmd)) {
-        parent.postMessage('Command does not start with espeak-ng', name);
-      }
     }
   };
 };
