@@ -6,115 +6,64 @@ See [Issue 1115640: [FUGU] NativeTransferableStream](https://bugs.chromium.org/p
 
 <h5>Synopsis</h5>
 
-Native Messaging => `Deno.Command()` => eSpeak NG => `fetch()` => Transferable Streams => `MediaStreamTrack`.
+Native Messaging => eSpeak NG => [`"externally_connectable"`](https://developer.chrome.com/docs/extensions/mv3/manifest/externally_connectable/) => `MediaStreamTrack`.
 
 Use local `espeak-ng` with `-m` option set in the browser. 
 
 Output speech sythesis audio as a live `MediaStreamTrack`.
 
-Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging), Deno `run()` to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) as STDIN to [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), stream STDOUT in "real-time" as live `MediaStreamTrack`. 
+Use [Native Messaging](https://developer.chrome.com/extensions/nativeMessaging), Bash with GNU Core Utiltities to input text and [Speech Synthesis Markup Language](https://www.w3.org/TR/speech-synthesis11/) as STDIN to [`espeak-ng`](https://github.com/espeak-ng/espeak-ng), stream STDOUT in "real-time" as live `MediaStreamTrack`. 
 
 <h5>Install<h5>
 
 <h6>Dependencies</h6>
 
 eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/master/docs/building.md#building-espeak-ng).
-
-[Deno](https://github.com/denoland/deno) is used for `serveTls()` and `Deno.Command()`. Substitute your server language of choice. We do not install the `deno` executable globally; we just use the executable in the unpacked extension directory.
  
 
 ```
-git clone --branch deno-server https://github.com/guest271314/native-messaging-espeak-ng.git
+git clone https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-messaging-espeak-ng
-chmod u+x nm_deno.js deno_server.js
-wget --show-progress --progress=bar --output-document deno.zip \
- https://github.com/denoland/deno/releases/latest/download/deno-x86_64-unknown-linux-gnu.zip && \
- unzip deno.zip && \
- rm deno.zip
+chmod u+x nm_bash.sh
  ```
-  
-  Follow [these instructions](https://github.com/GoogleChrome/samples/blob/gh-pages/webtransport/webtransport_server.py#L42-L72) at `1.`, `2.`, and `4.` to create a self-signed certificate for Chromium/Chrome to use for HTTPS.
-  
-```
-# As an alternative, Chromium can be instructed to trust a self-signed
-# certificate using command-line flags.  Here are step-by-step instructions on
-# how to do that:
-#
-#   1. Generate a certificate and a private key:
-#         openssl req -newkey rsa:2048 -nodes -keyout certificate.key \
-#                   -x509 -out certificate.pem -subj '/CN=Test Certificate' \
-#                   -addext "subjectAltName = DNS:localhost"
-#
-#   2. Compute the fingerprint of the certificate:
-#         openssl x509 -pubkey -noout -in certificate.pem |
-#                   openssl rsa -pubin -outform der |
-#                   openssl dgst -sha256 -binary | base64
-#      The result should be a base64-encoded blob that looks like this:
-#          "Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck="
-#
-#   3. Pass a flag to Chromium indicating what host and port should be allowed
-#      to use the self-signed certificate.  For instance, if the host is
-#      localhost, and the port is 4433, the flag would be:
-#         --origin-to-force-quic-on=localhost:4433
-#
-#   4. Pass a flag to Chromium indicating which certificate needs to be trusted.
-#      For the example above, that flag would be:
-#         --ignore-certificate-errors-spki-list=Gi/HIwdiMcPZo2KBjnstF5kQdLI5bPrYJ8i3Vi6Ybck=
-```
-  
-Pass the generated paths to `Deno.serveTls()` in `local_server.js`
-  
-```
- await serveTls(async(request) => {
- // ...
- }
- , {
-  certFile: 'certificate.pem',
-  keyFile: 'certificate.key',
-  signal, 
- });
-```
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select downloaded git directory.
 
-Note the generated extension ID, substitute that value for `<id>` in `native_messaging_espeakng.json`, `AudioStream.js`, `local_server.js`.
+Note the generated extension ID, substitute that value for `<id>` in `nm_bash.json`, `AudioStream.js`.
 
-Substitute full local path to `local_server.js` for `/path/to` in `native_messaging_espeakng.json`.
+Substitute full local path to `nm_bash.sh` for `/path/to` in `nm_bash.json`.
   
 ```
 "allowed_origins": [ "chrome-extension://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/" ]
 ```
 
-Copy `native_messaging_espeakng.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
+Copy `nm_bash.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
 
-`cp native_messaging_espeakng.json ~/.config/chromium/NativeMessagingHosts`
+`cp nm_bash.json ~/.config/chromium/NativeMessagingHosts`
 
 Reload extension.
 
 <h5>Usage</h5>
 
-On origins listed in `"matches"` array in `"web_accessible_resources"` object in `manifest.json`, e.g., at `console`
+On origins listed in `"matches"` array in [`"web_accessible_resources"`](https://developer.chrome.com/docs/extensions/mv3/manifest/web_accessible_resources/) and `"externally_connectable"` object in `manifest.json`, e.g., at `console`
 
 ```
-var { AudioStream } = await import('chrome-extension://<id>/AudioStream.js');
- 
 var text = `So we need people to have weird new
 ideas ... we need more ideas to break it
 and make it better ...
 
 Use it. Break it. File bugs. Request features.
 
-- Real time front-end alchemy, or: capturing, playing,
+- Soledad Penadés, Real time front-end alchemy, or: capturing, playing,
   altering and encoding video and audio streams, without
   servers or plugins!
-  by Soledad Penadés
-   
+<br>  
 von Braun believed in testing. I cannot
 emphasize that term enough – test, test,
 test. Test to the point it breaks.
 
 - Ed Buckbee, NASA Public Affairs Officer, Chasing the Moon
-
+<br>
 Now watch. ..., this how science works.
 One researcher comes up with a result.
 And that is not the truth. No, no.
@@ -125,29 +74,35 @@ it. Preferably a competitor. Preferably
 someone who doesn't want you to be correct.
 
 - Neil deGrasse Tyson, May 3, 2017 at 92nd Street Y
+<br>
+It’s like they say, if the system fails you, you create your own system.
 
-It’s like they say - if the system fails you, you create your own system.
+- Michael K. Williams, Black Market
+<br>
+1. If a (logical or axiomatic formal) system is consistent, it cannot be complete.
+2. The consistency of axioms cannot be proved within their own system.
 
-- Michael K. Williams, Black Market`;
- 
-var stdin = {cmd:`espeak-ng -m -v Storm --stdout`, input:`"${text}"`};
-
-var espeakng = new AudioStream({ stdin, recorder: true });
- 
-espeakng
-  .start()
-  .then((ab) => {
-    console.log(
-      URL.createObjectURL(new Blob([ab], { type: 'audio/webm;codecs=opus' }))
-    );
-  })
-  .catch(console.error);
+- Kurt Gödel, Incompleteness Theorem, On Formally Undecidable Propositions of Principia Mathematica and Related Systems`;
+let {AudioStream} = await import('chrome-extension://<id>/AudioStream.js')
+let audioStream = new AudioStream({stdin: `espeak-ng -m --stdout "${text}"`});
+await audioStream.start();
+```
+  
+To record `MediaStreamTrack` pass `recorder: true` (set to `false` by default) to second parameter
+  
+```
+let audioStream = var audioStream = new AudioStream({
+   stdin: `espeak-ng -m --stdout '<voice name="Storm">Hello world.<br></voice>'`, 
+   recorder: true
+});
+let ab = await audioStream.start(); // ArrayBuffer
+let blobURL = URL.createObjectURL(new Blob([ab], {type: 'audio/wav'}));
 ```
   
 Abort the request and audio output.
   
 ```
-await espeakng.abort()
+await audioStream.abort();
 ```
   
 <h5>References</h5>
