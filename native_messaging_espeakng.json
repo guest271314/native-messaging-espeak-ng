@@ -1,7 +1,0 @@
-{
-  "name": "native_messaging_espeakng",
-  "description": "eSpeak NG => MediaStreamTrack",
-  "path": "/path/to/local_server.sh",
-  "type": "stdio",
-  "allowed_origins": [ "chrome-extension://<id>/*" ]
-}
