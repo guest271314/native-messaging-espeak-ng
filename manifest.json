@@ -1,16 +1,17 @@
 {
   "name": "Native Messaging espeak-ng",
-  "description": "Native Messaging => Deno run() => eSpeak NG => MediaStreamTrack",
+  "short_name": "nm_espeakng",
+  "description": "externally_connectable => Native Messaging => eSpeak NG => MediaStreamTrack",
   "version": "2.0",
   "manifest_version": 3,
   "permissions": [
     "nativeMessaging",
     "activeTab",
-    "tabs"
+    "tabs",
+    "scripting"
   ],
   "host_permissions": [
-    "<all_urls>",
-    "https://localhost:*/*"
+    "<all_urls>"
   ],
   "background": {
     "service_worker": "background.js"
@@ -18,9 +19,7 @@
   "web_accessible_resources": [
     {
       "resources": [
-        "nativeTransferableStream.html",
-        "nativeTransferableStream.js",
-        "AudioStream.js"
+        "*js"
       ],
       "matches": [
         "https://github.com/*"
@@ -28,7 +27,15 @@
       "extensions": []
     }
   ],
+  "externally_connectable": {
+    "matches": [
+      "https://*.github.com/*"
+    ],
+    "ids": [
+      "*"
+    ]
+  },
   "action": {},
   "author": "guest271314",
-  "homepage_url": "https://github.com/guest271314/native-messaging-espeak-ng/tree/deno-server"
+  "homepage_url": "https://github.com/guest271314/native-messaging-espeak-ng/"
 }

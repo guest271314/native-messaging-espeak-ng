@@ -56,7 +56,7 @@ chrome.runtime.onConnectExternal.addListener((port) => {
   });
 });
 
-// Get ID on click of extension icon
+// Log ID to console on click of extension icon
 chrome.action.onClicked.addListener(async (tab) => {
   const manifest = chrome.runtime.getManifest();
   console.log(tab, manifest.externally_connectable.matches);

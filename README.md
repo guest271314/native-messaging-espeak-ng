@@ -6,7 +6,7 @@ See [Issue 1115640: [FUGU] NativeTransferableStream](https://bugs.chromium.org/p
 
 <h5>Synopsis</h5>
 
-Native Messaging => eSpeak NG => [`"externally_connectable"`](https://developer.chrome.com/docs/extensions/mv3/manifest/externally_connectable/) => `MediaStreamTrack`.
+[`"externally_connectable"`](https://developer.chrome.com/docs/extensions/mv3/manifest/externally_connectable/) => Native Messaging => eSpeak NG => `MediaStreamTrack`.
 
 Use local `espeak-ng` with `-m` option set in the browser. 
 
@@ -24,22 +24,22 @@ eSpeak NG [Building eSpeak NG](https://github.com/espeak-ng/espeak-ng/blob/maste
 ```
 git clone https://github.com/guest271314/native-messaging-espeak-ng.git
 cd native-messaging-espeak-ng
-chmod u+x nm_bash.sh
+chmod u+x nm_espeak_ng.sh
  ```
 
 Navigate to `chrome://extensions`, set `Developer mode` to on, click `Load unpacked`, select downloaded git directory.
 
-Note the generated extension ID, substitute that value for `<id>` in `nm_bash.json`, `AudioStream.js`.
+Note the generated extension ID, substitute that value for `<id>` in `nm_epseakng.json` and `AudioStream.js`.
 
-Substitute full local path to `nm_bash.sh` for `/path/to` in `nm_bash.json`.
+Substitute full local path to `nm_espeakng.sh` for `/path/to` in `nm_espeakng.json`.
   
 ```
 "allowed_origins": [ "chrome-extension://xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/" ]
 ```
 
-Copy `nm_bash.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
+Copy `nm_espeakng.json` to `NativeMessagingHosts` directory in Chromium or Chrome configuration folder, on Linux, i.e., `~/.config/chromium`; `~/.config/google-chrome-unstable`.
 
-`cp nm_bash.json ~/.config/chromium/NativeMessagingHosts`
+`cp nm_espeakng.json ~/.config/chromium/NativeMessagingHosts`
 
 Reload extension.
 
@@ -48,7 +48,7 @@ Reload extension.
 On origins listed in `"matches"` array in [`"web_accessible_resources"`](https://developer.chrome.com/docs/extensions/mv3/manifest/web_accessible_resources/) and `"externally_connectable"` object in `manifest.json`, e.g., at `console`
 
 ```
-var text = `So we need people to have weird new
+let text = `So we need people to have weird new
 ideas ... we need more ideas to break it
 and make it better ...
 
