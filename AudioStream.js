@@ -165,7 +165,6 @@ class AudioStream {
       if (this.ac.state === 'suspended') {
         await this.ac.resume();
       }
-      await this.ac.resume();
       await this.audioWriter.ready;
       await Promise.allSettled([this.stdout.pipeTo(new WritableStream({
         write: async (value, c) => {
