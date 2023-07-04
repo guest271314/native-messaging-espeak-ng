@@ -17,7 +17,7 @@ getMessage() {
       data='{"value":'
       data+=\"$line\"
       data+=',"done": false}'
-      sendMessage "$data" # "${data}\"${value}\}" #+ \"$line\" + '}' #\""$(cat data.txt)\"" #message
+      sendMessage "$data"
     done < <(stream "$command")
   sendMessage '{"value":null,"done":true}'
 }
