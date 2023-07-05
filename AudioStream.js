@@ -16,7 +16,7 @@ class AudioStream {
     this.sampleRate = 22050;
     this.numberOfChannels = 1;
     this.init = false;
-    this.id = '<id>';
+    this.id = 'anloonhfhkbefjglcmljdhhppbmonpld';
     this.ac = new AudioContext({
       latencyHint: 0,
     });
@@ -90,12 +90,16 @@ class AudioStream {
       } catch (err) {
         console.warn(err.message);
       }
-      console.log(`readOffset:${this.readOffset}, duration:${this.duration}, ac.currentTime:${this.ac.currentTime}`
-                  , `generator.readyState:${this.generator.readyState}, audioWriter.desiredSize:${this.audioWriter.desiredSize}`
-                  , `inputController.desiredSize:${this.inputController.desiredSize}, ac.state:${this.ac.state}`);
+      console.log(`readOffset:${this.readOffset}, duration:${this.duration}, ac.currentTime:${this.ac.currentTime}`, 
+        `generator.readyState:${this.generator.readyState}, audioWriter.desiredSize:${this.audioWriter.desiredSize}`, 
+        `inputController.desiredSize:${this.inputController.desiredSize}, ac.state:${this.ac.state}`);
+      if (this.transferableWindow || document.body.querySelector(`iframe[src="${this.src}"]`)) {
+        document.body.removeChild(this.transferableWindow);
+      }
       this.resolve('Stream aborted.');
     };
     this.signal.onabort = this.abortHandler;
+    console.log(this);
   }
   async disconnect(abort = false) {
     if (abort) {
@@ -164,6 +168,7 @@ class AudioStream {
       if (this.ac.state === 'suspended') {
         await this.ac.resume();
       }
+      // await this.ac.resume();
       await this.audioWriter.ready;
       await Promise.allSettled([this.stdout.pipeTo(new WritableStream({
         write: async (value, c) => {
@@ -211,13 +216,48 @@ class AudioStream {
             done
           } = await this.inputReader.read();
           if (done) {
+            // https://stackoverflow.com/a/46781986
+            const detectSilence = async (
+              stream,
+              silence_delay = 500,
+              min_decibels = -80
+            ) => {
+              return new Promise((resolve) => {
+                const analyser = new AnalyserNode(this.ac);
+                stream.connect(analyser);
+                analyser.minDecibels = min_decibels;
+
+                const data = new Uint8Array(analyser.frequencyBinCount); // will hold our data
+                let silence_start = performance.now();
+                let triggered = false; // trigger only once per silence event
+
+                const loop = (time) => {
+                  requestAnimationFrame(loop); // we'll loop every 60th of a second to check
+                  analyser.getByteFrequencyData(data); // get current data
+                  if (data.some(v => v)) { // if there is data above the given db limit
+                    if (triggered) {
+                      triggered = false;
+                    }
+                    silence_start = time; // set it to now
+                  }
+                  if (!triggered && time - silence_start > silence_delay) {
+                    triggered = true;
+                    resolve('Silence detected.');
+                  }
+                }
+                loop();
+              });
+            }
+
+            console.log(await detectSilence(this.outputSource));
             await this.inputReader.closed;
             try {
               await this.disconnect();
             } catch (err) {
               console.warn(err.message);
             }
-            console.log(`readOffset:${this.readOffset}, duration:${this.duration}, ac.currentTime:${this.ac.currentTime}`, `generator.readyState:${this.generator.readyState}, audioWriter.desiredSize:${this.audioWriter.desiredSize}`);
+            console.log(`readOffset:${this.readOffset}, duration:${this.duration}, ac.currentTime:${this.ac.currentTime}`, 
+              `generator.readyState:${this.generator.readyState}, audioWriter.desiredSize:${this.audioWriter.desiredSize}`);
             return await Promise.all([new Promise((resolve) => (this.stream.oninactive = resolve)), new Promise((resolve) => (this.ac.onstatechange = resolve)), ]);
           }
           const frame = new AudioData({
@@ -233,7 +273,9 @@ class AudioStream {
             this.recorder.start();
           }
           await this.audioWriter.write(frame);
-          //gc();
+          if (globalThis.gc) {
+            gc();
+          }
         },
         abort(e) {
           console.error(e.message);
