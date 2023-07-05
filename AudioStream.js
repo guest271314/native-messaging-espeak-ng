@@ -219,7 +219,7 @@ class AudioStream {
             // https://stackoverflow.com/a/46781986
             const detectSilence = async (
               stream,
-              silence_delay = 500,
+              silence_delay = 100,
               min_decibels = -80
             ) => {
               return new Promise((resolve) => {
