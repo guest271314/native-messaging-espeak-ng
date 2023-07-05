@@ -189,7 +189,6 @@ class AudioStream {
             this.inputController.enqueue(new Uint8Array(channelData.splice(0, channelData.length)));
           }
           this.inputController.close();
-          this.source.postMessage('Done writing input stream.', '*');
         },
       }), {
         signal: this.signal
