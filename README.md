@@ -83,7 +83,7 @@ It’s like they say, if the system fails you, you create your own system.
 2. The consistency of axioms cannot be proved within their own system.
 
 - Kurt Gödel, Incompleteness Theorem, On Formally Undecidable Propositions of Principia Mathematica and Related Systems`;
-let {AudioStream} = await import('chrome-extension://<id>/AudioStream.js')
+let {AudioStream} = await import(`chrome-extension://<id>/AudioStream.js?${new Date().getTime()}`)
 let audioStream = new AudioStream({stdin: `espeak-ng -m --stdout "${text}"`});
 await audioStream.start();
 ```
