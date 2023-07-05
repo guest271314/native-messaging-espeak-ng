@@ -60,7 +60,7 @@ chrome.runtime.onInstalled.addListener((reason) => {
   console.log(reason);
 });
 
-// Dynamically set "externally_connectable"
+// Dynamically set "externally_connectable" and "web_accessible_resources"
 chrome.action.onClicked.addListener(async (tab) => {
 
   const url = new URL(tab.url);
