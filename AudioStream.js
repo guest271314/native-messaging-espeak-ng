@@ -195,15 +195,14 @@ class AudioStream {
         signal: this.signal
       }), this.audioReadable.pipeTo(new WritableStream({
         start: async () => {
-          const frame = new AudioData({
+          await this.audioWriter.write(new AudioData({
             format: 's16',
             sampleRate: 22050,
             numberOfChannels: 1,
             numberOfFrames: 220,
             timestamp: 0,
             data: new Uint8Array(440),
-          });
-          await this.audioWriter.write(frame);
+          }));
         },
         write: async ({
           timestamp
