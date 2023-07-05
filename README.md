@@ -104,6 +104,10 @@ Abort the request and audio output.
 ```
 await audioStream.abort();
 ```
+
+<h6>Dynamically set "externally_connectable" and "web_accessible_resources"</h6>
+
+`manifest.json` is set by default to one match pattern, `"https://*.github.com/*"`. To write the current active Tab URL match pattern in `"matches"` array of `"externally_connectable"` and `"web_accessible_resources"` by click the extension icon, select `native-messaging-espeak-ng` extension directory, and grant permission to edit files in the folder using [File System Access](https://wicg.github.io/file-system-access) API. 
   
 <h5>References</h5>
 
