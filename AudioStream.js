@@ -216,40 +216,6 @@ class AudioStream {
             done
           } = await this.inputReader.read();
           if (done) {
-            // https://stackoverflow.com/a/46781986
-            const detectSilence = async (
-              stream,
-              silence_delay = 500,
-              min_decibels = -80
-            ) => {
-              return new Promise((resolve) => {
-                const analyser = new AnalyserNode(this.ac);
-                stream.connect(analyser);
-                analyser.minDecibels = min_decibels;
-
-                const data = new Uint8Array(analyser.frequencyBinCount); // will hold our data
-                let silence_start = performance.now();
-                let triggered = false; // trigger only once per silence event
-
-                const loop = (time) => {
-                  requestAnimationFrame(loop); // we'll loop every 60th of a second to check
-                  analyser.getByteFrequencyData(data); // get current data
-                  if (data.some(v => v)) { // if there is data above the given db limit
-                    if (triggered) {
-                      triggered = false;
-                    }
-                    silence_start = time; // set it to now
-                  }
-                  if (!triggered && time - silence_start > silence_delay) {
-                    triggered = true;
-                    resolve('Silence detected.');
-                  }
-                }
-                loop();
-              });
-            }
-
-            console.log(await detectSilence(this.outputSource));
             await this.inputReader.closed;
             try {
               await this.disconnect();
@@ -273,9 +239,6 @@ class AudioStream {
             this.recorder.start();
           }
           await this.audioWriter.write(frame);
-          if (globalThis.gc) {
-            gc();
-          }
         },
         abort(e) {
           console.error(e.message);
