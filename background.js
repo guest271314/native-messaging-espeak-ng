@@ -56,18 +56,63 @@ chrome.runtime.onConnectExternal.addListener((port) => {
   });
 });
 
-// Log ID to console on click of extension icon
+chrome.runtime.onInstalled.addListener((reason) => {
+  console.log(reason);
+});
+
+// Dynamically set "externally_connectable"
 chrome.action.onClicked.addListener(async (tab) => {
+
+  const url = new URL(tab.url);
   const manifest = chrome.runtime.getManifest();
-  console.log(tab, manifest.externally_connectable.matches);
-  await chrome.scripting.executeScript({
-    target: {
-      tabId: tab.id
-    },
-    world: 'MAIN',
-    args: [chrome.runtime.id],
-    func: (id) => {
-      console.log(id);
-    }
-  })
+  manifest.externally_connectable.matches = [
+    ...new Set([`${url.origin}/*`, ...manifest.externally_connectable.matches]),
+  ];
+  manifest.web_accessible_resources[0].matches = [
+    ...new Set([`${url.origin}/*`, ...manifest.web_accessible_resources[0].matches]),
+  ];
+  try {
+    const [{
+      result
+    }] = await chrome.scripting.executeScript({
+      target: {
+        tabId: tab.id
+      },
+      world: 'MAIN',
+      args: [
+        [...new TextEncoder().encode(JSON.stringify(manifest, null, 2))]
+      ],
+      func: async (manifest) => {
+        try {
+          const dir = await showDirectoryPicker({
+            mode: 'readwrite',
+            id: 'update'
+          });
+          const handle = await dir.getFileHandle('manifest.json', {
+            create: false
+          });
+          await new Blob([new Uint8Array(manifest)], {
+              type: 'application/json'
+            })
+            .stream()
+            .pipeTo(
+              await handle.createWritable()
+            );
+          console.log(`${handle.name} updated`);
+          return `${handle.name} updated`;
+        } catch (e) {
+          console.warn(e);
+          throw e;
+        }
+      }
+    });
+
+    if (result == 'manifest.json updated') {
+      chrome.runtime.reload();
+    };
+
+  } catch (e) {
+    console.warn(e);
+  }
+
 });
