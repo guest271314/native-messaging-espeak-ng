@@ -16,7 +16,7 @@ class AudioStream {
     this.sampleRate = 22050;
     this.numberOfChannels = 1;
     this.init = false;
-    this.id = 'anloonhfhkbefjglcmljdhhppbmonpld';
+    this.id = '<id>';
     this.ac = new AudioContext({
       latencyHint: 0,
     });
