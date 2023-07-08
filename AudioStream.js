@@ -93,9 +93,6 @@ class AudioStream {
       console.log(`readOffset:${this.readOffset}, duration:${this.duration}, ac.currentTime:${this.ac.currentTime}`, 
         `generator.readyState:${this.generator.readyState}, audioWriter.desiredSize:${this.audioWriter.desiredSize}`, 
         `inputController.desiredSize:${this.inputController.desiredSize}, ac.state:${this.ac.state}`);
-      if (this.transferableWindow || document.body.querySelector(`iframe[src="${this.src}"]`)) {
-        document.body.removeChild(this.transferableWindow);
-      }
       this.resolve('Stream aborted.');
     };
     this.signal.onabort = this.abortHandler;
